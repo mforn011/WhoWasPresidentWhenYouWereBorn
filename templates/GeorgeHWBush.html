@@ -1,0 +1,22 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section">
+  <br>
+  <h1>The President when you were born was...</h1>
+  <a href="http://en.wikipedia.org/wiki/George_H._W._Bush"><img src="/static/images/George_H._W._Bush_presidential_portrait.jpg" style="width: 200px; height: 250px"></a>
+  <h2>George H. W. Bush</h2>
+  <div class="paragraph">
+    George H. W. Bush was president from January 20, 1989 to January 20, 1993. During the Bush presidency, many major
+    events in global geopolitics occurred, with the administration presiding over the revolutions against communism in
+    Eastern Europe, the fall of the Berlin Wall, and the eventual demise of the Soviet Union, which ended the Cold War.
+    Bush would also lead a coalition of countries into Kuwait to repel Saddam Hussein's invading Iraqi army, successfully
+    doing so in only a month. Domestically, however, economic problems dogged Bush, and his decision to sign legislation
+    increasing taxes, going against a promise he made in the 1988 election, angered many people, especially in his party.
+    These factors would contribute to Bush's eventual loss to Bill Clinton in the 1992 election.
+  </div>
+    <br>
+  <a href="{{ url_for('index') }}" class="button">Back to Homepage</a>
+</section>
+
+{% endblock %}

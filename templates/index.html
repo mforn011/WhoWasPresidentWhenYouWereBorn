@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section">
+  <br>
+  <h1>Enter Your Date of Birth!</h1>
+    <div class="container">
+      <div>
+        <form method="post">
+        {{ form.csrf_token() }}
+        <p>
+          Month:
+          {{ form.month() }}
+        </p>
+        <p>
+          Day:
+          {{ form.day() }}
+        </p>
+        <p>
+          Year:
+          {{ form.year() }}
+        </p>
+        <input value="Submit" class="button" type="submit">
+      </form>
+      </div>
+    </div>
+</section>
+
+{% endblock %}

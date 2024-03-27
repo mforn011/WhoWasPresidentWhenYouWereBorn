@@ -1,0 +1,26 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section">
+  <br>
+  <h1>The President when you were born was...</h1>
+  <a href="http://en.wikipedia.org/wiki/George_W._Bush"><img src="/static/images/George-W-Bush.jpeg" style="width: 200px; height: 250px"></a>
+  <h2>George W. Bush</h2>
+  <div class="paragraph">
+      George W. Bush was president from January 20, 2001 to January 20, 2009. The son of former president George H. W. Bush,
+      he eked out a controversial victory in the 2000 election against his Democratic opponent, then vice president Al Gore.
+      Very early in his term, the course of global geopolitics was dramatically reshaped by the 9/11 attacks on America,
+      which would lead Bush and allied countries to wage a global War on Terror to stamp out Al-Qaeda, the organization
+      behind 9/11, and its allies. Among Bush's targets in this war was Iraq, which he made the decision to invade in
+      2003, based on the faulty premise that Saddam Hussein was linked with Al-Qaeda and was hiding weapons of mass
+      destruction. After winning reelection in 2004, Bush's approval ratings would steadily but dramatically decline,
+      with the president being dogged by the federal government's poor response to Hurricane Katrina, continuing controversy
+      over the Iraq War, and the subprime mortgage crisis, which would eventually snowball into the worst financial crisis
+      since the Great Depression. Bush left office with some of the lowest approval ratings ever for a president, and
+      amidst the Democrats having recaptured control of both chambers of Congress and the White House.
+  </div>
+    <br>
+  <a href="{{ url_for('index') }}" class="button">Back to Homepage</a>
+</section>
+
+{% endblock %}

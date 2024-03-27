@@ -1,0 +1,29 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section">
+  <br>
+  <h1>The President when you were born was...</h1>
+  <a href="http://en.wikipedia.org/wiki/Donald_Trump"><img src="/static/images/Donald_Trump_official_portrait.jpg" style="width: 200px; height: 250px"></a>
+  <h2>Donald Trump</h2>
+  <div class="paragraph">
+    Donald Trump was president from January 20, 2017 to January 20, 2021. Despite having never held public office,
+    Trump ran for president in 2016, with his campaign platform widely being described as populist, protectionist,
+    isolationist, and nativist. During the campaign, Trump was condemned for making many controversial and outright false
+    statements, both from within and outside his party. After an unexpected victory in the Republican primaries, Trump
+    went on to defeat Democratic nominee Hillary Clinton in that year's election, although losing the popular vote, in
+    one of the biggest upsets in the history of American politics. His presidency was marked by many controversial
+    actions, including a Muslim travel ban, an attempt to build a large wall on the U.S.–Mexico border, and the separation
+    of migrant families detained at the border. His administration was aggressively protectionist, withdrawing the U.S.
+    from the TPP and initiating trade wars with several countries, including China. In the last year of his presidency,
+    the world became mired in the COVID-19 pandemic, the worst in a century, and Trump was widely criticized for his
+    response to the pandemic. In the run-up to the 2020 election, Trump spread numerous falsehoods and misinformation,
+    and wrongly claimed the election had been rigged after losing. The encouragement of his supporters to force government
+    officials to change the election results on Trump's part would eventually culminate in the January 6, 2021 Capitol
+    attack.
+  </div>
+    <br>
+  <a href="{{ url_for('index') }}" class="button">Back to Homepage</a>
+</section>
+
+{% endblock %}
