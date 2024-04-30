@@ -3,7 +3,7 @@
 
 <section id="middle-section" xmlns="http://www.w3.org/1999/html">
   <br><br><br>
-  <h1>Enter Your Account Information.</h1>
+  <h1>Enter a Username and Password.</h1>
     <div class="container">
       <div>
         <form method="post">
@@ -28,8 +28,8 @@
           {% endwith %}
         </p>
         <div class="button-container">
-          <input value="Log In" class="button" type="submit">
-          <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
+          <input value="Create Account" class="button" type="submit">
+          <a href="{{ url_for('index') }}" class="button">Back to Log-in Screen</a>
         </div>
       </form>
       </div>
