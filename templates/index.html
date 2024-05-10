@@ -7,31 +7,33 @@
     <div class="container">
       <div>
         <form method="post">
-        {{ form.csrf_token() }}
-        <p>
-          Username:
-          {{ form.app_username() }}
-        </p>
-        <p>
-          Password:
-          {{ form.app_password() }}
-        </p>
-        <p>
-          {% with messages = get_flashed_messages() %}
-            {% if messages %}
-              <ul>
-                {% for message in messages %}
-                  <li>{{ message }}</li>
-                {% endfor %}
-              </ul>
-            {% endif %}
-          {% endwith %}
-        </p>
-        <div class="button-container">
-          <input value="Log In" class="button" type="submit">
-          <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
-        </div>
-      </form>
+          {{ form.csrf_token() }}
+          <div class="form-container">
+            <p>
+              Username:
+              {{ form.app_username() }}
+            </p>
+            <p>
+              Password:
+              {{ form.app_password() }}
+            </p>
+          </div>
+          <p>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul>
+                  {% for message in messages %}
+                    <li>{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </p>
+          <div class="button-container">
+            <input value="Log In" class="button" type="submit">
+            <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
+          </div>
+        </form>
       </div>
     </div>
   <br><br><br>
