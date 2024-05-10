@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, url_for, flash, redirect
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_pymongo import PyMongo
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, IntegerField, validators
@@ -47,10 +48,14 @@ class Search(FlaskForm):
 
 def real_username_and_password(appUsername, appPassword):
     user_credentials = db.usernameAndPassword.find()
-    for i in user_credentials:
-        if i['username'] == appUsername and i['password'] == appPassword:
-            return True
-    return False
+    if user_credentials is not None:
+      for i in user_credentials:
+        if i['username'] == appUsername and check_password_hash(i['password'], appPassword):
+          return True
+        else:
+          return False
+    else:
+        return False
 
 def who_was_president(month, day, year):
     president = ""
@@ -120,7 +125,7 @@ def createAccount():
         newUsername = request.form['app_username']
         newPassword = request.form['app_password']
         if not real_username_and_password(newUsername, newPassword):
-            db.usernameAndPassword.insert_one({'username': newUsername, 'password': newPassword})
+            db.usernameAndPassword.insert_one({'username': newUsername, 'password': generate_password_hash(newPassword, method='scrypt')})
             flash('Account successfully created!', 'success')
             return render_template("createAccount.html", form=form)
         else:
