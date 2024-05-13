@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, url_for, flash, redirect
+from flask import Flask, render_template, request, url_for, flash, redirect, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_pymongo import PyMongo
 from flask_wtf import FlaskForm
-from wtforms import StringField, SelectField, IntegerField, validators
+from wtforms import StringField, PasswordField, SelectField, IntegerField, validators
 import os
 from pymongo import MongoClient
 import certifi
@@ -15,7 +15,7 @@ credentials = main_functions.read_from_file("credentials.json")
 username = credentials['username']
 password = credentials['password']
 
-app.config['SECRET_KEY']=os.urandom(16).hex()
+app.secret_key=os.urandom(16).hex()
 app.config["MONGO_URI"]="mongodb+srv://{0}:{1}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB".format(username, password)
 
@@ -37,7 +37,7 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 
 class UserCredentials(FlaskForm):
     app_username = StringField("app_username", [validators.DataRequired()])
-    app_password = StringField("app_password", [validators.DataRequired()])
+    app_password = PasswordField("app_password", [validators.DataRequired()])
 
 class Search(FlaskForm):
     year = SelectField("year",
@@ -49,11 +49,11 @@ class Search(FlaskForm):
 def real_username_and_password(appUsername, appPassword):
     user_credentials = db.usernameAndPassword.find()
     if user_credentials is not None:
-      for i in user_credentials:
-        if i['username'] == appUsername and check_password_hash(i['password'], appPassword):
-          return True
-        else:
-          return False
+        for i in user_credentials:
+            if i['username'] == appUsername and check_password_hash(i['password'], appPassword):
+                return True
+        # If no matching user found
+        return False
     else:
         return False
 
@@ -107,16 +107,39 @@ def who_was_president(month, day, year):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    form = Search(request.form)
+    if request.method == 'POST' and form.validate():
+        yearSelected = int(request.form['year'])
+        monthSelected = request.form['month']
+        daySelected = int(request.form['day'])
+        president_during_birth = who_was_president(monthSelected, daySelected, yearSelected)
+        session['url'] = url_for('president_page', president=president_during_birth)
+        session['url2'] = url_for('president_page', president=president_during_birth)
+        return redirect(url_for('president_page', president=president_during_birth))
+    return render_template("index.html", form=form)
+
+@app.route('/<president>')
+def president_page(president):
+    return render_template(president + ".html")
+
+@app.route('/logIn', methods=['GET', 'POST'])
+def logIn():
     form = UserCredentials(request.form)
     if request.method == 'POST' and form.validate():
         appUsername = request.form['app_username']
         appPassword = request.form['app_password']
+        # Get the presidential page URL from the session
+        next_url = session.pop('url', None)
         if real_username_and_password(appUsername, appPassword):
-            return redirect(url_for('searchPresident'))
+            session['username'] = appUsername
+            if next_url is not None:
+                return redirect(next_url)
+            else:
+                return redirect(url_for('index'))
         else:
             flash('Error: Username and/or password not found', 'error')
-            return render_template("index.html", form=form)
-    return render_template("index.html", form=form)
+            return render_template("logIn.html", form=form)
+    return render_template("logIn.html", form=form)
 
 @app.route('/createAccount', methods=['GET', 'POST'])
 def createAccount():
@@ -126,23 +149,29 @@ def createAccount():
         newPassword = request.form['app_password']
         if not real_username_and_password(newUsername, newPassword):
             db.usernameAndPassword.insert_one({'username': newUsername, 'password': generate_password_hash(newPassword, method='scrypt')})
-            flash('Account successfully created!', 'success')
-            return render_template("createAccount.html", form=form)
+            return render_template("accountCreated.html")
         else:
             flash('Account already exists.', 'error')
             return render_template("createAccount.html", form=form)
     return render_template("createAccount.html", form=form)
 
-@app.route('/searchPresident', methods=['GET', 'POST'])
-def searchPresident():
-    form = Search(request.form)
-    if request.method == 'POST' and form.validate():
-        yearSelected = int(request.form['year'])
-        monthSelected = request.form['month']
-        daySelected = int(request.form['day'])
-        president_during_birth = who_was_president(monthSelected, daySelected, yearSelected)
-        return render_template(president_during_birth + ".html")
-    return render_template("searchPresident.html", form=form)
+@app.route('/logOut', methods=['GET', 'POST'])
+def logOut():
+    if request.method == 'POST':
+        next_url = session.pop('url2', None)
+        if request.form.get('logout'):
+            return redirect(url_for('loggedOut'))
+        elif request.form.get('cancel'):
+            if next_url is not None:
+                return redirect(next_url)
+            else:
+                return redirect(url_for('index'))
+    return render_template("logOut.html")
+
+@app.route('/loggedOut')
+def loggedOut():
+    session.clear()
+    return render_template("loggedOut.html")
 
 app.run()
 
