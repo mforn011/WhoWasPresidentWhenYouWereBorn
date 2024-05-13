@@ -161,6 +161,10 @@ def createAccount():
             return render_template("createAccount.html", form=form)
     return render_template("createAccount.html", form=form)
 
+@app.route('/books')
+def books():
+    return render_template("books.html")
+
 @app.route('/logOut', methods=['GET', 'POST'])
 def logOut():
     if request.method == 'POST':
