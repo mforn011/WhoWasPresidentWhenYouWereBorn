@@ -1,0 +1,18 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section" xmlns="http://www.w3.org/1999/html">
+  <br><br><br>
+  <h1>
+    Account successfully created!
+  </h1>
+  <br><br><br>
+</section>
+
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ url_for('logIn') }}";
+    }, 3000); // 3000 milliseconds = 3 seconds
+</script>
+
+{% endblock %}

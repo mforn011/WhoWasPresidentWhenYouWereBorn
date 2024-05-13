@@ -1,0 +1,16 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section">
+  <br><br><br>
+  <h1>You have been logged out.</h1>
+  <br><br><br>
+</section>
+
+<script>
+    setTimeout(function() {
+        window.location.href = "{{ url_for('index') }}";
+    }, 3000); // 3000 milliseconds = 3 seconds
+</script>
+
+{% endblock %}

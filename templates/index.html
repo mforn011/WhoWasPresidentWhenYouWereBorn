@@ -1,42 +1,91 @@
 {% extends "template.html" %}
 {% block content %}
 
-<section id="middle-section" xmlns="http://www.w3.org/1999/html">
-  <br><br><br>
-  <h1>Enter Your Account Information.</h1>
+{% if session['username'] %}
+  <section id="top-right">
     <div class="container">
-      <div>
-        <form method="post">
-          {{ form.csrf_token() }}
-          <div class="form-container">
-            <p>
-              Username:
-              {{ form.app_username() }}
-            </p>
-            <p>
-              Password:
-              {{ form.app_password() }}
-            </p>
-          </div>
-          <p>
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                <ul>
-                  {% for message in messages %}
-                    <li>{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
-          </p>
-          <div class="button-container">
-            <input value="Log In" class="button" type="submit">
-            <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
-          </div>
-        </form>
-      </div>
+      <nav>
+        <ul>
+          <li>{{ session['username'] }}</li>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+        </ul>
+      </nav>
     </div>
-  <br><br><br>
-</section>
+  </section>
+
+  <section id="middle-section">
+    <br><br><br>
+    <h1>Enter Your Date of Birth!</h1>
+      <br>
+      <div class="container">
+        <div>
+          <form method="post">
+            {{ form.csrf_token() }}
+            <div class="form-container">
+              <p>
+                Month:
+                {{ form.month() }}
+              </p>
+              <p>
+                Day:
+                {{ form.day() }}
+              </p>
+              <p>
+                Year:
+                {{ form.year() }}
+              </p>
+            </div>
+            <div class="button-container">
+              <input value="Submit" class="button" type="submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    <br><br><br>
+  </section>
+{% else %}
+  <section id="top-right2">
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="{{ url_for('logIn') }}">Log In</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section id="middle-section2">
+    <br><br><br>
+    <h1>Enter Your Date of Birth!</h1>
+      <br>
+      <div class="container">
+        <div>
+          <form method="post">
+            {{ form.csrf_token() }}
+            <div class="form-container">
+              <p>
+                Month:
+                {{ form.month() }}
+              </p>
+              <p>
+                Day:
+                {{ form.day() }}
+              </p>
+              <p>
+                Year:
+                {{ form.year() }}
+              </p>
+            </div>
+            <div class="button-container">
+              <input value="Submit" class="button" type="submit">
+            </div>
+          </form>
+        </div>
+      </div>
+    <br><br><br>
+  </section>
+{% endif %}
 
 {% endblock %}

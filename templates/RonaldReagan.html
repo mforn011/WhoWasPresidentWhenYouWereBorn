@@ -1,21 +1,59 @@
 {% extends "template.html" %}
 {% block content %}
 
-<section id="middle-section">
-  <br>
-  <h1>The President when you were born was...</h1>
-  <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg" style="width: 200px; height: 250px"></a>
-  <h2>Ronald Reagan</h2>
-  <div class="paragraph">
-      Ronald Reagan was president from January 20, 1981 to January 20, 1989. He won resoundingly in 1980 and 1984,
-      defeating Jimmy Carter and Walter Mondale in landslides. To deal with stagflation and recession, Reagan proposed
-      and enacted a series of tax cuts and deregulation, as well as increased interest rates. At the same time, Reagan
-      ended détente with the Soviet Union and ramped up the arms race through increased defense spending. His presidency
-      saw dramatically reduced inflation and unemployment, and renewed confidence in America. Many academics also credit
-      Reagan for contributing to the end of the Cold War through his aggressive foreign policy.
-  </div>
-    <br>
-  <a href="{{ url_for('searchPresident') }}" class="button">Go Back</a>
-</section>
+{% if session['username'] %}
+    <section id="top-right">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <section id="middle-section">
+      <br><br>
+      <h1>The President when you were born was...</h1>
+      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg" style="width: 200px; height: 250px"></a>
+      <h2>Ronald Reagan</h2>
+      <div class="paragraph">
+          Ronald Reagan was president from January 20, 1981 to January 20, 1989. He won resoundingly in 1980 and 1984,
+          defeating Jimmy Carter and Walter Mondale in landslides. To deal with stagflation and recession, Reagan proposed
+          and enacted a series of tax cuts and deregulation, as well as increased interest rates. At the same time, Reagan
+          ended détente with the Soviet Union and ramped up the arms race through increased defense spending. His presidency
+          saw dramatically reduced inflation and unemployment, and renewed confidence in America. Many academics also credit
+          Reagan for contributing to the end of the Cold War through his aggressive foreign policy.
+      </div>
+    </section>
+{% else %}
+    <section id="top-right2">
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('logIn') }}">Log In</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <section id="middle-section2">
+      <br><br>
+      <h1>The President when you were born was...</h1>
+      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg" style="width: 200px; height: 250px"></a>
+      <h2>Ronald Reagan</h2>
+      <div class="paragraph">
+          Ronald Reagan was president from January 20, 1981 to January 20, 1989. He won resoundingly in 1980 and 1984,
+          defeating Jimmy Carter and Walter Mondale in landslides. To deal with stagflation and recession, Reagan proposed
+          and enacted a series of tax cuts and deregulation, as well as increased interest rates. At the same time, Reagan
+          ended détente with the Soviet Union and ramped up the arms race through increased defense spending. His presidency
+          saw dramatically reduced inflation and unemployment, and renewed confidence in America. Many academics also credit
+          Reagan for contributing to the end of the Cold War through his aggressive foreign policy.
+      </div>
+    </section>
+{% endif %}
 
 {% endblock %}

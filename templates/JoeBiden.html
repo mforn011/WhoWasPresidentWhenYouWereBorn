@@ -1,26 +1,69 @@
 {% extends "template.html" %}
 {% block content %}
 
-<section id="middle-section">
-  <br>
-  <h1>The President when you were born was...</h1>
-  <a href="http://en.wikipedia.org/wiki/Joe_Biden"><img src="/static/images/Joe_Biden_presidential_portrait.jpg" style="width: 200px; height: 250px"></a>
-  <h2>Joe Biden</h2>
-  <div class="paragraph">
-      Joe Biden is the current president of the United States, having been inaugurated on January 20, 2021. Biden took
-      office after a tumultuous 2020 election season, which occurred amidst the worst pandemic in a century, racial
-      turmoil, and rampant misinformation from his opponent, Donald Trump. Soon after becoming president, Biden lobbied
-      for and successfully passed a very large stimulus bill to deal with the effects of the recession caused by the
-      COVID-19 pandemic. However, as the third of three enormous stimulus bills passed during the pandemic, it was widely
-      blamed for accelerating inflation, which would reach highs not seen in decades under Biden's administration. Biden
-      also controversially ordered the complete withdrawal of U.S. troops from Afghanistan, which would lead to the
-      collapse of the U.S.-backed Afghan government and the recapture of Kabul by the Taliban. Additionally, Biden has
-      approved significant military aid to Ukraine amidst Russia's invasion of the country. Dogged by low approval ratings,
-      a poor economy at home, and questions about his age, Biden faces off against Trump again in 2024, after overwhelmingly
-      being renominated by his party.
-  </div>
-    <br>
-  <a href="{{ url_for('searchPresident') }}" class="button">Go Back</a>
-</section>
+{% if session['username'] %}
+    <section id="top-right">
+      <div class="container">
+        <nav>
+          <ul>
+            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <section id="middle-section">
+      <br><br>
+      <h1>The President when you were born was...</h1>
+      <a href="http://en.wikipedia.org/wiki/Joe_Biden"><img src="/static/images/Joe_Biden_presidential_portrait.jpg" style="width: 200px; height: 250px"></a>
+      <h2>Joe Biden</h2>
+      <div class="paragraph">
+          Joe Biden is the current president of the United States, having been inaugurated on January 20, 2021. Biden took
+          office after a tumultuous 2020 election season, which occurred amidst the worst pandemic in a century, racial
+          turmoil, and rampant misinformation from his opponent, Donald Trump. Soon after becoming president, Biden lobbied
+          for and successfully passed a very large stimulus bill to deal with the effects of the recession caused by the
+          COVID-19 pandemic. However, as the third of three enormous stimulus bills passed during the pandemic, it was widely
+          blamed for accelerating inflation, which would reach highs not seen in decades under Biden's administration. Biden
+          also controversially ordered the complete withdrawal of U.S. troops from Afghanistan, which would lead to the
+          collapse of the U.S.-backed Afghan government and the recapture of Kabul by the Taliban. Additionally, Biden has
+          approved significant military aid to Ukraine amidst Russia's invasion of the country. Dogged by low approval ratings,
+          a poor economy at home, and questions about his age, Biden faces off against Trump again in 2024, after overwhelmingly
+          being renominated by his party.
+      </div>
+    </section>
+{% else %}
+    <section id="top-right2">
+      <div class="container">
+        <nav>
+          <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li><a href="{{ url_for('logIn') }}">Log In</a></li>
+          </ul>
+        </nav>
+      </div>
+    </section>
+
+    <section id="middle-section2">
+      <br><br>
+      <h1>The President when you were born was...</h1>
+      <a href="http://en.wikipedia.org/wiki/Joe_Biden"><img src="/static/images/Joe_Biden_presidential_portrait.jpg" style="width: 200px; height: 250px"></a>
+      <h2>Joe Biden</h2>
+      <div class="paragraph">
+          Joe Biden is the current president of the United States, having been inaugurated on January 20, 2021. Biden took
+          office after a tumultuous 2020 election season, which occurred amidst the worst pandemic in a century, racial
+          turmoil, and rampant misinformation from his opponent, Donald Trump. Soon after becoming president, Biden lobbied
+          for and successfully passed a very large stimulus bill to deal with the effects of the recession caused by the
+          COVID-19 pandemic. However, as the third of three enormous stimulus bills passed during the pandemic, it was widely
+          blamed for accelerating inflation, which would reach highs not seen in decades under Biden's administration. Biden
+          also controversially ordered the complete withdrawal of U.S. troops from Afghanistan, which would lead to the
+          collapse of the U.S.-backed Afghan government and the recapture of Kabul by the Taliban. Additionally, Biden has
+          approved significant military aid to Ukraine amidst Russia's invasion of the country. Dogged by low approval ratings,
+          a poor economy at home, and questions about his age, Biden faces off against Trump again in 2024, after overwhelmingly
+          being renominated by his party.
+      </div>
+    </section>
+{% endif %}
 
 {% endblock %}

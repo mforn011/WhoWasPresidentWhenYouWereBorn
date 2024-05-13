@@ -3,7 +3,7 @@
 
 <section id="middle-section" xmlns="http://www.w3.org/1999/html">
   <br><br><br>
-  <h1>Enter a Username and Password.</h1>
+  <h1>Enter Your Account Information.</h1>
     <br>
     <div class="container">
       <div>
@@ -11,8 +11,8 @@
           {{ form.csrf_token() }}
           <div class="form-container">
             <p>
-            Username:
-            {{ form.app_username() }}
+              Username:
+              {{ form.app_username() }}
             </p>
             <p>
               Password:
@@ -30,9 +30,10 @@
               {% endif %}
             {% endwith %}
           </p>
+          <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
           <div class="button-container">
-            <input value="Create Account" class="button" type="submit">
-            <a href="{{ url_for('logIn') }}" class="button">Back to Log-in Screen</a>
+            <input value="Log In" class="button" type="submit">
+            <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
           </div>
         </form>
       </div>

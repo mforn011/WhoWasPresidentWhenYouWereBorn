@@ -1,0 +1,23 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="middle-section" xmlns="http://www.w3.org/1999/html">
+  <br><br><br>
+  <h1>
+    Are you sure you want to log out?
+  </h1>
+  <br>
+  <div class="container">
+    <div>
+      <form method="post">
+        <div class="button-container">
+          <input type="submit" class="button" name="logout" value="Yes">
+          <input type="submit" class="button" name="cancel" value="No">
+        </div>
+      </form>
+    </div>
+  </div>
+  <br><br><br>
+</section>
+
+{% endblock %}
