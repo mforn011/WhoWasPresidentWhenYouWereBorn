@@ -163,6 +163,8 @@ def createAccount():
 
 @app.route('/books')
 def books():
+    session['url'] = request.url
+    session['url2'] = request.url
     return render_template("books.html")
 
 @app.route('/logOut', methods=['GET', 'POST'])
