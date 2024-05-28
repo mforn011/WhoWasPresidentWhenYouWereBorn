@@ -11,5 +11,5 @@ var interval = setInterval(function() {
 
 setTimeout(function() {
     clearInterval(interval)
-    window.location.href = "{{ url_for('index') }}";
+    window.location.href = indexUrl;
 }, 3000); // 3000 milliseconds = 3 seconds
