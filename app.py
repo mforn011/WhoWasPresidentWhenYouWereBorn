@@ -113,6 +113,7 @@ def who_was_president(month, day, year):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    session['url'] = request.url
     form = Search(request.form)
     if request.method == 'POST' and form.validate():
         yearSelected = int(request.form['year'])
@@ -120,7 +121,6 @@ def index():
         daySelected = int(request.form['day'])
         president_during_birth = who_was_president(monthSelected, daySelected, yearSelected)
         session['url'] = url_for('president_page', president=president_during_birth)
-        session['url2'] = url_for('president_page', president=president_during_birth)
         return redirect(url_for('president_page', president=president_during_birth))
     return render_template("index.html", form=form)
 
@@ -135,10 +135,12 @@ def logIn():
         appUsername = request.form['app_username']
         appPassword = request.form['app_password']
         # Get the presidential page URL from the session
-        next_url = session.pop('url', None)
+        next_url = ''
+        if 'url' in session:
+            next_url = session['url']
         if real_username_and_password(appUsername, appPassword):
             session['username'] = appUsername
-            if next_url is not None:
+            if next_url:
                 return redirect(next_url)
             else:
                 return redirect(url_for('index'))
@@ -161,23 +163,76 @@ def createAccount():
             return render_template("createAccount.html", form=form)
     return render_template("createAccount.html", form=form)
 
-@app.route('/books')
+@app.route('/books', methods=['GET', 'POST'])
 def books():
     session['url'] = request.url
-    session['url2'] = request.url
-    return render_template("books.html")
+    saved_books = []
+    if 'username' in session:
+        user_account = db.usernameAndPassword.find_one({'username': session['username']})
+        if user_account and 'book_info' in user_account:
+            saved_books = user_account['book_info']
+    if request.method == 'POST':
+        if 'username' in session:
+            book_title = request.form['book_title']
+            book_image = request.form['book_image']
+            book_description = request.form['book_description']
+            book_url = request.form['book_url']
+            book_info = {'book_title': book_title,
+                         'book_image': book_image,
+                         'book_description': book_description,
+                         'book_url': book_url}
+            if not any(book['book_title'] == book_title for book in saved_books):
+                db.usernameAndPassword.update_one({"username": session['username']}, {"$push": {'book_info': book_info}})
+                saved_books.append(book_info)
+                return render_template("books.html", saved_books=saved_books)
+        else:
+            return redirect(url_for('logIn'))
+    return render_template("books.html", saved_books=saved_books)
+
+@app.route('/user', methods=['GET', 'POST'])
+def user():
+    session['url'] = request.url
+    book_info = []
+    if 'username' in session:
+        user_account = db.usernameAndPassword.find_one({"username": session['username']})
+        if user_account and 'book_info' in user_account:
+            book_info = user_account['book_info']
+    book_info_without_quotes = []
+    for i in book_info:
+        book_title = i['book_title'].strip('"')
+        book_image = i['book_image'].strip('"')
+        book_description = i['book_description'].strip('"')
+        book_url = i['book_url'].strip('"')
+        updated_book_info = (book_title, book_image, book_description, book_url)
+        book_info_without_quotes.append(updated_book_info)
+    if request.method == 'POST':
+        if 'username' in session:
+            bookTitle = request.form['book_title']
+            bookImage = request.form['book_image']
+            bookDescription = request.form['book_description']
+            bookUrl = request.form['book_url']
+            delete_book_info = {
+                "book_title": bookTitle,
+                "book_image": bookImage,
+                "book_description": bookDescription,
+                "book_url": bookUrl
+            }
+            db.usernameAndPassword.update_one({"username": session['username']}, {"$pull": {'book_info': delete_book_info}})
+            return redirect(url_for('user'))
+    return render_template("user.html", book_info=book_info_without_quotes)
 
 @app.route('/logOut', methods=['GET', 'POST'])
 def logOut():
     if request.method == 'POST':
-        next_url = session.pop('url2', None)
-        if request.form.get('logout'):
-            return redirect(url_for('loggedOut'))
-        elif request.form.get('cancel'):
-            if next_url is not None:
-                return redirect(next_url)
-            else:
-                return redirect(url_for('index'))
+        if 'url' in session:
+            next_url = session['url']
+            if request.form.get('logout'):
+                return redirect(url_for('loggedOut'))
+            elif request.form.get('cancel'):
+                if next_url is not None:
+                    return redirect(next_url)
+                else:
+                    return redirect(url_for('index'))
     return render_template("logOut.html")
 
 @app.route('/loggedOut')
