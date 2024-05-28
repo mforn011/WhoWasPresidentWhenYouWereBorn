@@ -6,7 +6,7 @@
     <div class="container">
       <nav>
         <ul>
-          <li>{{ session['username'] }}</li>
+          <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
           <li><a href="{{ url_for('index') }}">Home</a></li>
           <li><a href="{{ url_for('books') }}">Books</a></li>
           <li><a href="{{ url_for('logOut') }}">Log Out</a></li>

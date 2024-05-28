@@ -6,7 +6,7 @@
       <div class="container">
         <nav>
           <ul>
-            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('books') }}">Books</a></li>
             <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
@@ -18,7 +18,7 @@
     <section id="middle-section">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/George_W._Bush"><img src="/static/images/George-W-Bush.jpeg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/George_W._Bush"><img src="/static/images/George-W-Bush.jpeg"></a>
       <h2>George W. Bush</h2>
       <div class="paragraph">
           George W. Bush was president from January 20, 2001 to January 20, 2009. The son of former president George H. W. Bush,
@@ -50,7 +50,7 @@
     <section id="middle-section2">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/George_W._Bush"><img src="/static/images/George-W-Bush.jpeg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/George_W._Bush"><img src="/static/images/George-W-Bush.jpeg"></a>
       <h2>George W. Bush</h2>
       <div class="paragraph">
           George W. Bush was president from January 20, 2001 to January 20, 2009. The son of former president George H. W. Bush,

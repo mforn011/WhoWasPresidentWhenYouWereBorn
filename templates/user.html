@@ -1,0 +1,63 @@
+{% extends "template.html" %}
+{% block content %}
+
+<section id="top-right">
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="#">{{ session['username'] }}</a></li>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('books') }}">Books</a></li>
+        <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
+  {% if book_info %}
+    <section id="middle-section" xmlns="http://www.w3.org/1999/html">
+      <br><br><br>
+      <h1>
+        Here's your book list:
+      </h1>
+      {% for i in book_info %}
+        <div class="flex-container">
+          <img src="/static/images/{{ i[1] }}" />
+          <div>
+            <h3>
+              {{ i[0] }}
+            </h3>
+            <p>
+              {{ i[2] }}
+            </p>
+            <form method="post">
+              <div class="button-container">
+                <input type="hidden" name="book_title" value="{{ i[0] }}">
+                <input type="hidden" name="book_image" value="{{ i[1] }}">
+                <input type="hidden" name="book_description" value="{{ i[2] }}">
+                <input type="submit" class="button remove-button" name="remove" value="Remove">
+                <a href="{{ i[3] }}" class="button">Order</a>
+                <input type="hidden" name="book_url" value="{{ i[3] }}">
+              </div>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </section>
+  {% else %}
+    <section id="middle-section2" xmlns="http://www.w3.org/1999/html">
+      <br><br><br>
+      <h1>
+        Here's your book list:
+      </h1>
+      <br>
+      <h2>
+        You don't have any books saved.
+      </h2>
+    </section>
+  {% endif %}
+
+<!-- JavaScript file for user.html -->
+<script src="../static/js/user.js"></script>
+
+{% endblock %}

@@ -1,12 +1,310 @@
 {% extends "template.html" %}
 {% block content %}
 
-<section id="middle-section" xmlns="http://www.w3.org/1999/html">
-  <br><br><br>
-  <h1>
-    Under construction.
-  </h1>
-  <br><br><br>
-</section>
+<!-- Include a hidden input to store the session username -->
+<input type="hidden" id="sessionUsername" value="{{ session['username'] if 'username' in session else '' }}">
+<!-- Include a hidden input to store all the user's saved books -->
+<input type="hidden" id="savedBooks" value='{{ saved_books|tojson }}'>
+
+{% if session['username'] %}
+  <section id="top-right">
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('books') }}">Books</a></li>
+          <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section id="middle-section" xmlns="http://www.w3.org/1999/html">
+    <br><br><br>
+    <h1>
+      Here's some recommended reading
+    </h1>
+    <div class="flex-container">
+      <img src="/static/images/TheFoundingFathers.jpg" />
+      <div>
+        <h3>
+          Founding Fathers: The Essential Guide to the Men Who Made America
+        </h3>
+        <p>
+          An authoritative, accessible guide to the figures who shaped a nation.
+
+          How did upstart colonists solidify the ideas celebrated in the Declaration of Independence and defeat the
+          powerful British army? How did thinkers from disparate backgrounds shape a government that transformed modern
+          politics? The Founding Fathers explains how, putting valuable information on this historic period at your
+          fingertips--straight from one of the most trusted sources of information around the globe, the Encyclopaedia
+          Britannica.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="hidden" name="book_title" value="Founding Fathers: The Essential Guide to the Men Who Made America">
+            <input type="hidden" name="book_image" value="TheFoundingFathers.jpg">
+            <input type="hidden" name="book_description" value="An authoritative, accessible guide to the figures who
+            shaped a nation. How did upstart colonists solidify the ideas celebrated in the Declaration of Independence
+            and defeat the powerful British army? How did thinkers from disparate backgrounds shape a government that transformed modern
+            politics? The Founding Fathers explains how, putting valuable information on this historic period at your
+            fingertips--straight from one of the most trusted sources of information around the globe, the Encyclopaedia
+            Britannica.">
+            <input type="submit" class="button save-button" name="save" value="Save"
+                   data-book-title="Founding Fathers: The Essential Guide to the Men Who Made America">
+            <a href="https://www.amazon.com/Founding-Fathers-Essential-Guide-America/dp/0470117923/ref=asc_df_0470117923/
+            ?tag=hyprod-20&linkCode=df0&hvadid=693422720760&hvpos=&hvnetw=g&hvrand=13191745471553817928
+            &hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-568965658961&psc=1&mcid
+            =f4cedbefd49e36208cf6853ecef1a9e2&gad_source=1" class="button">Order</a>
+            <input type="hidden" name="book_url" value="https://www.amazon.com/Founding-Fathers-Essential-Guide-America/dp/0470117923/ref=asc_df_0470117923/
+            ?tag=hyprod-20&linkCode=df0&hvadid=693422720760&hvpos=&hvnetw=g&hvrand=13191745471553817928
+            &hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-568965658961&psc=1&mcid
+            =f4cedbefd49e36208cf6853ecef1a9e2&gad_source=1">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/AbrahamLincolnALife.jpg" />
+      <div>
+        <h3>
+          Abraham Lincoln: A Life
+        </h3>
+        <p>
+          Sixteenth president of the United States, the Great Emancipator, and a surpassingly eloquent champion of
+          national unity, freedom, and democracy, Abraham Lincoln is arguably the most studied and admired of all
+          Americans. This astonishing book, written by Michael Burlingame, is an updated, condensed version of the
+          2,000-page two-volume set that The Atlantic hailed as one of the five best books of 2009, and offers fresh
+          interpretations of this endlessly fascinating American leader.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="hidden" name="book_title" value="Abraham Lincoln: A Life">
+            <input type="hidden" name="book_image" value="AbrahamLincolnALife.jpg">
+            <input type="hidden" name="book_description" value="Sixteenth president of the United States, the Great
+            Emancipator, and a surpassingly eloquent champion of national unity, freedom, and democracy, Abraham Lincoln
+            is arguably the most studied and admired of all Americans. This astonishing book, written by Michael
+            Burlingame, is an updated, condensed version of the 2,000-page two-volume set that The Atlantic hailed as
+            one of the five best books of 2009, and offers fresh interpretations of this endlessly fascinating American
+            leader.">
+            <input type="submit" class="button save-button" name="save" value="Save" data-book-title="Abraham Lincoln: A Life">
+            <a href="https://www.amazon.com/Abraham-Lincoln-Life-Michael-Burlingame/dp/1421445557/ref=asc_df_1421445557
+            /?tag=hyprod-20&linkCode=df0&hvadid=693476323565&hvpos=&hvnetw=g&hvrand=5593534621193120789&hvpone=&hvptwo=
+            &hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-1966474663578&psc=1&mcid=
+            15a069778e63368ea3b22ab85f13d9ac&gad_source=1" class="button">Order</a>
+            <input type="hidden" name="book_url" value="https://www.amazon.com/Abraham-Lincoln-Life-Michael-Burlingame/
+            dp/1421445557/ref=asc_df_1421445557/?tag=hyprod-20&linkCode=df0&hvadid=693476323565&hvpos=&hvnetw=g&
+            hvrand=5593534621193120789&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla
+            -1966474663578&psc=1&mcid=15a069778e63368ea3b22ab85f13d9ac&gad_source=1">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/JFKCubanMissileCrisis.jpg" />
+      <div>
+        <h3>
+          One Minute to Midnight: Kennedy, Khrushchev, and Castro on the Brink of Nuclear War
+        </h3>
+        <p>
+          In October 1962, at the height of the Cold War, the United States and the Soviet Union came to the brink of
+          nuclear conflict over the placement of Soviet missiles in Cuba. In this hour-by-hour chronicle of those tense
+          days, veteran Washington Post reporter Michael Dobbs reveals just how close we came to Armageddon.
+
+          Here, for the first time, are gripping accounts of Khrushchev's plan to destroy the U.S. naval base at
+          Guantánamo; the handling of Soviet nuclear warheads on Cuba; and the extraordinary story of a U-2 spy plane
+          that got lost over Russia at the peak of the crisis.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="hidden" name="book_title"
+                   value="One Minute to Midnight: Kennedy, Khrushchev, and Castro on the Brink of Nuclear War">
+            <input type="hidden" name="book_image" value="JFKCubanMissileCrisis.jpg">
+            <input type="hidden" name="book_description" value="In October 1962, at the height of the Cold War, the
+            United States and the Soviet Union came to the brink of nuclear conflict over the placement of Soviet
+            missiles in Cuba. In this hour-by-hour chronicle of those tense days, veteran Washington Post reporter
+            Michael Dobbs reveals just how close we came to Armageddon. Here, for the first time, are gripping accounts
+            of Khrushchev's plan to destroy the U.S. naval base at Guantánamo; the handling of Soviet nuclear warheads
+            on Cuba; and the extraordinary story of a U-2 spy plane that got lost over Russia at the peak of the crisis.">
+            <input type="submit" class="button save-button" name="save" value="Save"
+                   data-book-title="One Minute to Midnight: Kennedy, Khrushchev, and Castro on the Brink of Nuclear War">
+            <a href="https://www.amazon.com/One-Minute-Midnight-Kennedy-Khrushchev/dp/1400078911/ref=asc_df_1400078911/
+            ?tag=hyprod-20&linkCode=df0&hvadid=693369824057&hvpos=&hvnetw=g&hvrand=8197142553359871519&hvpone=&hvptwo=
+            &hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-525658935962&psc=1&
+            mcid=6b4caacdc47d374988833c458d380497&gad_source=1" class="button">Order</a>
+            <input type="hidden" name="book_url" value="https://www.amazon.com/One-Minute-Midnight-Kennedy-Khrushchev/
+            dp/1400078911/ref=asc_df_1400078911/?tag=hyprod-20&linkCode=df0&hvadid=693369824057&hvpos=&hvnetw=g&
+            hvrand=8197142553359871519&hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&
+            hvtargid=pla-525658935962&psc=1&mcid=6b4caacdc47d374988833c458d380497&gad_source=1">
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/BarackObamaTheAudacityOfHope.jpg" />
+      <div>
+        <h3>
+          The Audacity of Hope: Thoughts on Reclaiming the American Dream
+        </h3>
+        <p>
+          In July 2004, four years before his presidency, Barack Obama electrified the Democratic National Convention
+          with an address that spoke to Americans across the political spectrum. One phrase in particular anchored
+          itself in listeners’ minds, a reminder that for all the discord and struggle to be found in our history as a
+          nation, we have always been guided by a dogged optimism in the future, or what Obama called the 'audacity of
+          hope.'
+
+          The Audacity of Hope is Barack Obama’s call for a different brand of politics—a politics for those weary of
+          bitter partisanship and alienated by the 'endless clash of armies' we see in congress and on the campaign
+          trail; a politics rooted in the faith, inclusiveness, and nobility of spirit at the heart of
+          'our improbable experiment in democracy.'
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="hidden" name="book_title" value="The Audacity of Hope: Thoughts on Reclaiming the American Dream">
+            <input type="hidden" name="book_image" value="BarackObamaTheAudacityOfHope.jpg">
+            <input type="hidden" name="book_description" value="In July 2004, four years before his presidency, Barack
+            Obama electrified the Democratic National Convention with an address that spoke to Americans across the
+            political spectrum. One phrase in particular anchored itself in listeners’ minds, a reminder that for all
+            the discord and struggle to be found in our history as a nation, we have always been guided by a dogged
+            optimism in the future, or what Obama called the 'audacity of hope.' The Audacity of Hope is Barack Obama’s
+            call for a different brand of politics—a politics for those weary of bitter partisanship and alienated by
+            the 'endless clash of armies' we see in congress and on the campaign trail; a politics rooted in the faith,
+            inclusiveness, and nobility of spirit at the heart of 'our improbable experiment in democracy.'">
+            <input type="submit" class="button save-button" name="save" value="Save"
+                   data-book-title="The Audacity of Hope: Thoughts on Reclaiming the American Dream">
+            <a href="https://www.amazon.com/Audacity-Hope-Thoughts-Reclaiming-American/dp/0307237699" class="button">Order</a>
+            <input type="hidden" name="book_url" value="https://www.amazon.com/Audacity-Hope-Thoughts-Reclaiming-American/dp/0307237699">
+          </div>
+        </form>
+      </div>
+    </div>
+    <br><br><br>
+  </section>
+{% else %}
+  <section id="top-right2">
+    <div class="container">
+      <nav>
+        <ul>
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('logIn') }}">Log In</a></li>
+          <li><a href="{{ url_for('books') }}">Books</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <section id="middle-section2" xmlns="http://www.w3.org/1999/html">
+    <br><br><br>
+    <h1>
+      Here's some recommended reading
+    </h1>
+    <div class="flex-container">
+      <img src="/static/images/TheFoundingFathers.jpg" />
+      <div>
+        <h3>
+          Founding Fathers: The Essential Guide to the Men Who Made America
+        </h3>
+        <p>
+          An authoritative, accessible guide to the figures who shaped a nation.
+
+          How did upstart colonists solidify the ideas celebrated in the Declaration of Independence and defeat the
+          powerful British army? How did thinkers from disparate backgrounds shape a government that transformed modern
+          politics? The Founding Fathers explains how, putting valuable information on this historic period at your
+          fingertips--straight from one of the most trusted sources of information around the globe, the Encyclopaedia
+          Britannica.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="submit" class="button" name="save" value="Save">
+            <a href="https://www.amazon.com/Founding-Fathers-Essential-Guide-America/dp/0470117923/ref=asc_df_0470117923/
+            ?tag=hyprod-20&linkCode=df0&hvadid=693422720760&hvpos=&hvnetw=g&hvrand=13191745471553817928
+            &hvpone=&hvptwo=&hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-568965658961&psc=1&mcid
+            =f4cedbefd49e36208cf6853ecef1a9e2&gad_source=1" class="button">Order</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/AbrahamLincolnALife.jpg" />
+      <div>
+        <h3>
+          Abraham Lincoln: A Life
+        </h3>
+        <p>
+          Sixteenth president of the United States, the Great Emancipator, and a surpassingly eloquent champion of
+          national unity, freedom, and democracy, Abraham Lincoln is arguably the most studied and admired of all
+          Americans. This astonishing book, written by Michael Burlingame, is an updated, condensed version of the
+          2,000-page two-volume set that The Atlantic hailed as one of the five best books of 2009, and offers fresh
+          interpretations of this endlessly fascinating American leader.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="submit" class="button" name="save" value="Save">
+            <a href="https://www.amazon.com/Abraham-Lincoln-Life-Michael-Burlingame/dp/1421445557/ref=asc_df_1421445557
+            /?tag=hyprod-20&linkCode=df0&hvadid=693476323565&hvpos=&hvnetw=g&hvrand=5593534621193120789&hvpone=&hvptwo=
+            &hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-1966474663578&psc=1&
+            mcid=15a069778e63368ea3b22ab85f13d9ac&gad_source=1" class="button">Order</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/JFKCubanMissileCrisis.jpg" />
+      <div>
+        <h3>
+          One Minute to Midnight: Kennedy, Khrushchev, and Castro on the Brink of Nuclear War
+        </h3>
+        <p>
+          In October 1962, at the height of the Cold War, the United States and the Soviet Union came to the brink of
+          nuclear conflict over the placement of Soviet missiles in Cuba. In this hour-by-hour chronicle of those tense
+          days, veteran Washington Post reporter Michael Dobbs reveals just how close we came to Armageddon.
+
+          Here, for the first time, are gripping accounts of Khrushchev's plan to destroy the U.S. naval base at
+          Guantánamo; the handling of Soviet nuclear warheads on Cuba; and the extraordinary story of a U-2 spy plane
+          that got lost over Russia at the peak of the crisis.
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="submit" class="button" name="save" value="Save">
+            <a href="https://www.amazon.com/One-Minute-Midnight-Kennedy-Khrushchev/dp/1400078911/ref=asc_df_1400078911/
+            ?tag=hyprod-20&linkCode=df0&hvadid=693369824057&hvpos=&hvnetw=g&hvrand=8197142553359871519&hvpone=&hvptwo=
+            &hvqmt=&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=9007527&hvtargid=pla-525658935962&psc=1&mcid=
+            6b4caacdc47d374988833c458d380497&gad_source=1" class="button">Order</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="flex-container">
+      <img src="/static/images/BarackObamaTheAudacityofHope.jpg" />
+      <div>
+        <h3>
+          The Audacity of Hope: Thoughts on Reclaiming the American Dream
+        </h3>
+        <p>
+          In July 2004, four years before his presidency, Barack Obama electrified the Democratic National Convention
+          with an address that spoke to Americans across the political spectrum. One phrase in particular anchored
+          itself in listeners’ minds, a reminder that for all the discord and struggle to be found in our history as a
+          nation, we have always been guided by a dogged optimism in the future, or what Obama called the 'audacity of
+          hope.'
+
+          The Audacity of Hope is Barack Obama’s call for a different brand of politics—a politics for those weary of
+          bitter partisanship and alienated by the 'endless clash of armies' we see in congress and on the campaign
+          trail; a politics rooted in the faith, inclusiveness, and nobility of spirit at the heart of
+          'our improbable experiment in democracy.'
+        </p>
+        <form method="post">
+          <div class="button-container">
+            <input type="submit" class="button" name="save" value="Save">
+            <a href="https://www.amazon.com/Audacity-Hope-Thoughts-Reclaiming-American/dp/0307237699" class="button">Order</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    <br><br><br>
+  </section>
+{% endif %}
+
+<!-- JavaScript file for books.html -->
+<script src="../static/js/books.js"></script>
 
 {% endblock %}

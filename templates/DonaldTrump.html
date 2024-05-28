@@ -6,7 +6,7 @@
       <div class="container">
         <nav>
           <ul>
-            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('books') }}">Books</a></li>
             <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
@@ -18,7 +18,7 @@
     <section id="middle-section">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Donald_Trump"><img src="/static/images/Donald_Trump_official_portrait.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Donald_Trump"><img src="/static/images/Donald_Trump_official_portrait.jpg"></a>
       <h2>Donald Trump</h2>
       <div class="paragraph">
         Donald Trump was president from January 20, 2017 to January 20, 2021. Despite having never held public office,
@@ -53,7 +53,7 @@
     <section id="middle-section2">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Donald_Trump"><img src="/static/images/Donald_Trump_official_portrait.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Donald_Trump"><img src="/static/images/Donald_Trump_official_portrait.jpg"></a>
       <h2>Donald Trump</h2>
       <div class="paragraph">
         Donald Trump was president from January 20, 2017 to January 20, 2021. Despite having never held public office,

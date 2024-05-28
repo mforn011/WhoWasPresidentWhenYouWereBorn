@@ -6,7 +6,7 @@
       <div class="container">
         <nav>
           <ul>
-            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('books') }}">Books</a></li>
             <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
@@ -18,7 +18,7 @@
     <section id="middle-section">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Bill_Clinton"><img src="/static/images/Bill_Clinton.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Bill_Clinton"><img src="/static/images/Bill_Clinton.jpg"></a>
       <h2>Bill Clinton</h2>
       <div class="paragraph">
         Bill Clinton was president from January 20, 1993 to January 20, 2001. The first Democrat in the White House in over
@@ -47,7 +47,7 @@
     <section id="middle-section2">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Bill_Clinton"><img src="/static/images/Bill_Clinton.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Bill_Clinton"><img src="/static/images/Bill_Clinton.jpg"></a>
       <h2>Bill Clinton</h2>
       <div class="paragraph">
         Bill Clinton was president from January 20, 1993 to January 20, 2001. The first Democrat in the White House in over

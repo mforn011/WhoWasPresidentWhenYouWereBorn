@@ -6,7 +6,7 @@
       <div class="container">
         <nav>
           <ul>
-            <li>{{ session['username'] }}</li>
+            <li><a href="{{ url_for('user') }}">{{ session['username'] }}</a></li>
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('books') }}">Books</a></li>
             <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
@@ -18,7 +18,7 @@
     <section id="middle-section">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg"></a>
       <h2>Ronald Reagan</h2>
       <div class="paragraph">
           Ronald Reagan was president from January 20, 1981 to January 20, 1989. He won resoundingly in 1980 and 1984,
@@ -45,7 +45,7 @@
     <section id="middle-section2">
       <br><br>
       <h1>The President when you were born was...</h1>
-      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg" style="width: 200px; height: 250px"></a>
+      <a href="http://en.wikipedia.org/wiki/Ronald_Reagan"><img src="/static/images/Official_Portrait_of_President_Reagan_1981.jpg"></a>
       <h2>Ronald Reagan</h2>
       <div class="paragraph">
           Ronald Reagan was president from January 20, 1981 to January 20, 1989. He won resoundingly in 1980 and 1984,
