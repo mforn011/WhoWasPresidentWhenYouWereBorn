@@ -4,7 +4,7 @@ A web application created with HTML, CSS, and JavaScript, using Python's Flask f
 
 Note that HTML files containing code for your web pages must be in a folder named "templates", or else Flask's render_template() method won't work. Also make sure you specify that the app.route uses both GET and POST methods, or else your page won't display and you'll get an error.
 
-Link to my web app in action: https://whowaspresidentwhenyouwereborn-14b9e812b52d.herokuapp.com/ (try it only on PC for now, it's having problems on mobile)
+Link to my web app in action: https://whowaspresidentwhenyouwereborn-14b9e812b52d.herokuapp.com/
 
 UPDATE:
 Added a new username and password feature using MongoDB. If the user clicks on the "Log In" button on the top right, they are taken to the log-in screen, which asks the user for their username and password. If they have no account, they can click on the "create account" button, and enter a unique username and password (which is hashed using the scrypt algorithm), which is then stored in a MongoDB collection. They can then enter this username and password from the log-in screen.
