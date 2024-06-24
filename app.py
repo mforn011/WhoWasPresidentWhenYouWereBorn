@@ -7,28 +7,34 @@ import os
 from pymongo import MongoClient
 import certifi
 from wtforms.validators import DataRequired
-
 import main_functions
 
+# Initialize Flask app
 app = Flask(__name__)
 
+# Load credentials from credentials.json
 credentials = main_functions.read_from_file("credentials.json")
 
 username = credentials['username']
 password = credentials['password']
 
-app.secret_key=os.urandom(16).hex()
+# Configure secret key and MongoDB URI
+app.secret_key="new_secret_key"
 app.config["MONGO_URI"]="mongodb+srv://{0}:{1}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB".format(username, password)
 
+# Initialize PyMongo
 mongo = PyMongo(app)
 
+# Connect to MongoDB client
 client = MongoClient("mongodb+srv://{0}:{1}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB".format(username, password),
                      tlsCAFile=certifi.where())
 
+# Access the database
 db = client['db']
 
+# Define lists for form choices
 years = [1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993,
          1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
          2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
@@ -40,10 +46,12 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
         31]
 
+# Define form for user credentials
 class UserCredentials(FlaskForm):
     app_username = StringField("app_username", [validators.DataRequired()])
     app_password = PasswordField("app_password", [validators.DataRequired()])
 
+# Define form for search
 class Search(FlaskForm):
     year = SelectField("year",
                        choices=years)
@@ -51,6 +59,10 @@ class Search(FlaskForm):
                         choices=months)
     day = SelectField("day", choices=days)
 
+# Define form for new password
+class NewPassword(FlaskForm):
+    new_user_password = PasswordField("new_user_password", [validators.DataRequired()])
+    new_user_password2 = PasswordField("new_user_password2", [validators.DataRequired()])
 
 def real_username_and_password(appUsername, appPassword):
     user_credentials = db.usernameAndPassword.find()
@@ -221,6 +233,38 @@ def user():
             return redirect(url_for('user'))
     return render_template("user.html", book_info=book_info_without_quotes)
 
+@app.route('/user2')
+def user2():
+    session['url'] = request.url
+    return render_template("user2.html")
+
+@app.route('/newPassword', methods=['GET', 'POST'])
+def newPassword():
+    session['url'] = request.url
+    form = NewPassword(request.form)
+    user_name = ''
+    user_password = ''
+    if 'username' in session:
+        user_account = db.usernameAndPassword.find_one({'username': session['username']})
+        if user_account and 'password' in user_account:
+            user_name = user_account['username']
+            user_password = user_account['password']
+    if request.method == 'POST' and form.validate:
+        newPassword1 = request.form['new_user_password']
+        newPassword2 = request.form['new_user_password2']
+        if newPassword1 == newPassword2:
+            if not check_password_hash(user_password, newPassword1):
+                flash('New password saved!', 'success')
+                db.usernameAndPassword.update_one({'username': user_name}, {'$set': {'password': generate_password_hash(newPassword1, method='scrypt')}})
+                return render_template("newPassword.html", form=form)
+            else:
+                flash('That is already your password.', 'error')
+                return render_template("newPassword.html", form=form)
+        else:
+            flash('Passwords must be typed exactly the same twice.', 'error')
+            return render_template("newPassword.html", form=form)
+    return render_template("newPassword.html", form=form)
+
 @app.route('/logOut', methods=['GET', 'POST'])
 def logOut():
     if request.method == 'POST':
@@ -240,7 +284,8 @@ def loggedOut():
     session.clear()
     return render_template("loggedOut.html")
 
-app.run()
+if __name__ == '__main__':
+    app.run()
 
 
 
