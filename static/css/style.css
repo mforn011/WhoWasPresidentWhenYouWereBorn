@@ -1,14 +1,55 @@
+/* General styling */
 body {
     margin: 0;
     padding: 0;
     font-family: "Open Sans", sans-serif;
 }
 
+h1, h2, h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    padding: 0;
+}
+
+/* Image styling */
 img {
     width: 200px;
     height: 250px;
 }
 
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-style: solid;
+    border-color: rgb(128, 128, 128, 0.15);
+}
+
+th {
+    background: #efefef;
+    background: linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+    background: -moz-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+    background: -webkit-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
+    box-shadow: 0px 0px 9px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+td {
+    padding: 8px;
+    border: none;
+}
+
+td .left-cell {
+    text-align: left;
+    width: 40%;
+}
+
+td .right-cell {
+    width: 60%;
+}
+
+/* Footer styling */
 #footer {
     background-color: lightblue;
     text-align: center;
@@ -19,13 +60,18 @@ img {
     font-size: 14px;
 }
 
+/* Button styling */
 .button {
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     background-color: blue;
-    font-family: "Open Sans", sans-serif;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     text-align: center;
+    transition: 0.5s;
     text-decoration: none;
     color: white;
     display: inline-block;
@@ -48,6 +94,7 @@ img {
     margin-top: 20px;
 }
 
+/* Centering buttons within a container */
 .button-container .button {
     margin: 0 10px;
 }
@@ -59,6 +106,7 @@ img {
     font-size: 16px;
 }
 
+/* Top section with background image and overlaying text */
 .top-section {
     background-image: url('/static/images/uspresidents.png');
     background-size: cover;
@@ -66,97 +114,87 @@ img {
     height: 300px;
     text-align: center;
     padding-top: 50px;
+    position: relative;
 }
 
 .overlay-text {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -85%);
+    transform: translate(-50%, -50%);
     text-align: center;
 }
 
 .overlay-text h1 {
-    font-family: system-ui;
     font-size: 48px;
-    font-weight: 700;
+    text-transform: uppercase;
     color: white;
 }
 
+/* Styling for middle section of pages */
 #middle-section, #middle-section2 {
     width: 700px;
     margin: 0 auto;
     text-align: center;
 }
 
-#middle-section h1 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 30px;
-    margin-top: 20px;
-}
-
-#middle-section h2 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 24px;
-    margin-top: 20px;
-}
-
-#middle-section h3 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 20px;
-    margin-top: 20px;
-}
-
-#middle-section .paragraph {
-    text-align: left;
-}
-
-#middle-section ul {
-    list-style-type: none;
-}
-
-#middle-section ul li {
-    color: red;
-    font-size: 12px;
-}
-
+#middle-section h1,
 #middle-section2 h1 {
-    font-weight: bold;
     margin-bottom: 10px;
     font-size: 30px;
     margin-top: 20px;
 }
 
+#middle-section h2,
 #middle-section2 h2 {
-    font-weight: bold;
     margin-bottom: 10px;
     font-size: 24px;
     margin-top: 20px;
 }
 
+#middle-section h3,
 #middle-section2 h3 {
-    font-weight: bold;
     margin-bottom: 10px;
     font-size: 20px;
     margin-top: 20px;
 }
 
+#middle-section .paragraph,
 #middle-section2 .paragraph {
     text-align: left;
 }
 
+#middle-section ul,
 #middle-section2 ul {
     list-style-type: none;
 }
 
+#middle-section ul li,
 #middle-section2 ul li {
     color: red;
     font-size: 12px;
 }
 
+@media (max-width: 768px) {
+    #middle-section, #middle-section2 {
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    #middle-section h1, #middle-section2 h1 {
+        font-size: 25px;
+    }
+
+    #middle-section h2, #middle-section2 h2 {
+        font-size: 20px;
+    }
+
+    #middle-section h3, #middle-section2 h3 {
+        font-size: 18px;
+    }
+}
+
+/* Form container styling */
 .form-container {
     display: flex;
     flex-direction: column;
@@ -164,60 +202,94 @@ img {
 }
 
 .form-container p {
-    text-align: right;
+    text-align: left;
 }
 
+/* Top right styling */
 #top-right, #top-right2 {
+    width: 100%;
+    margin: 0;
+}
+
+/* Navigation menu styling */
+nav {
+    list-style-type: none;
     float: right;
-    margin: 0;
+    padding: 0 0 0 0;
 }
 
-#top-right nav ul {
-    list-style-type: none;
+nav ul {
     padding: 0;
     margin: 0;
-    overflow: hidden;
 }
 
-#top-right nav ul li {
-    display: inline;
-    background-color: white;
+nav ul > li {
+    display: inline-block;
 }
 
-#top-right nav ul li a {
+#top-right ul > li > a,
+#top-right2 ul > li > a {
     padding: 5px 10px;
     text-decoration: none;
+    color: #000000;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-size: 13px;
+    transition: color 0.3s;
+}
+
+#top-right ul > li .username {
+    text-transform: lowercase;
+}
+
+#top-right ul > li:hover > a,
+#top-right2 ul > li:hover > a {
     color: blue;
 }
 
-#top-right nav ul li a:hover {
-    background-color: #000000;
-    color: white;
-}
-
-#top-right2 nav ul {
-    list-style-type: none;
+#top-right ul ul {
+    visibility: hidden;
+    z-index: 1000;
+    border: 1px solid black;
     padding: 0;
-    margin: 0;
-    overflow: hidden;
-}
-
-#top-right2 nav ul li {
-    display: inline;
+    position: absolute;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
     background-color: white;
 }
 
-#top-right2 nav ul li a {
-    padding: 5px 10px;
-    text-decoration: none;
-    color: blue;
+#top-right ul li:hover > ul {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
 }
 
-#top-right2 nav ul li a:hover {
-    background-color: #000000;
-    color: white;
+#top-right nav ul ul li {
+    display: block;
+    position: relative;
+    color: #000000;
 }
 
+#top-right nav ul ul li a {
+    padding: 10px 40px;
+    text-transform: none;
+}
+
+.menu-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1030;
+    padding-right: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Flex container styling */
 .flex-container {
     display: flex;
     align-items: center;
@@ -243,6 +315,7 @@ img {
     font-style: italic;
 }
 
+/* Button container within flex container */
 .flex-container .button-container {
     display: inline-block;
     align-items: center;
