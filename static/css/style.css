@@ -240,7 +240,7 @@ nav ul > li {
 }
 
 #top-right ul > li .username {
-    text-transform: lowercase;
+    text-transform: none;
 }
 
 #top-right ul > li:hover > a,

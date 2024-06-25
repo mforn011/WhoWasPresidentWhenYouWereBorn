@@ -169,10 +169,9 @@ def createAccount():
         newPassword = request.form['app_password']
         if not real_username_and_password(newUsername, newPassword):
             db.usernameAndPassword.insert_one({'username': newUsername, 'password': generate_password_hash(newPassword, method='scrypt')})
-            return render_template("accountCreated.html")
+            flash('Account successfully created!', 'success')
         else:
             flash('Account already exists.', 'error')
-            return render_template("createAccount.html", form=form)
     return render_template("createAccount.html", form=form)
 
 @app.route('/books', methods=['GET', 'POST'])
