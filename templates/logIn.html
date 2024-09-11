@@ -1,44 +1,56 @@
 {% extends "template.html" %}
 {% block content %}
 
+<section id="top-right">
+  <div class="container">
+    <nav>
+      <ul>
+        <li><a href="{{ url_for('index') }}">Home</a></li>
+        <li><a href="{{ url_for('logIn') }}">Log In</a></li>
+        <li><a href="{{ url_for('books') }}">Books</a></li>
+      </ul>
+    </nav>
+  </div>
+</section>
+
 <section id="middle-section" xmlns="http://www.w3.org/1999/html">
   <br><br><br>
-  <h1>Enter Your Account Information.</h1>
-    <br>
-    <div class="container">
-      <div>
-        <form method="post">
-          {{ form.csrf_token() }}
-          <div class="form-container">
-            <p>
-              Username:
-              {{ form.app_username() }}
-            </p>
-            <p>
-              Password:
-              {{ form.app_password() }}
-            </p>
-          </div>
+  <div class="input-box-size">
+    <div class="input-box">
+      <h1>Enter your login credentials</h1>
+      <form method="post">
+        {{ form.csrf_token() }}
+        <div class="form-container2">
           <p>
-            {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                <ul>
-                  {% for message in messages %}
-                    <li>{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            {% endwith %}
+            Username:<br>
+            {{ form.app_username(class="input-field", placeholder="Enter your username") }}
           </p>
-          <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
-          <div class="button-container">
-            <input value="Log In" class="button" type="submit">
-            <a href="{{ url_for('createAccount') }}" class="button">Create Account</a>
-          </div>
-        </form>
-      </div>
+          <p>
+            Password:<br>
+            {{ form.app_password(class="input-field", placeholder="Enter your password") }}
+          </p>
+        </div>
+        <div class="error-message">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for category, message in messages %}
+                <div class="{{ category }}">
+                  {{ message }}
+                </div>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        </div>
+        <input type="hidden" name="next" value="{{ request.args.get('next', '') }}" />
+        <div class="button-container">
+          <input value="Log In" class="button" type="submit">
+        </div>
+        <div class="text">
+          Not registered? <a href="{{ url_for('createAccount') }}">Create an account</a>
+        </div>
+      </form>
     </div>
-  <br><br><br>
+  </div>
 </section>
 
 {% endblock %}

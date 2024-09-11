@@ -21,7 +21,7 @@ img {
 /* Table styling */
 table {
     width: 100%;
-    border-collapse: collapse;
+    border-spacing: 0;
     border-style: solid;
     border-color: rgb(128, 128, 128, 0.15);
 }
@@ -33,6 +33,7 @@ th {
     background: -webkit-linear-gradient(top, #efefef 0%, #bbbbbb 100%);
     box-shadow: 0px 0px 9px rgba(0,0,0,0.15);
     text-align: center;
+    overflow: hidden;
 }
 
 td {
@@ -47,6 +48,86 @@ td .left-cell {
 
 td .right-cell {
     width: 60%;
+}
+
+/* Input form styling */
+.input-box-size {
+    margin: 20px auto;
+    width: 350px;
+}
+
+.input-box {
+    padding: 20px;
+    border-style: solid;
+    border-color: rgb(128, 128, 128, 0.15);
+    border-radius: 5px;
+    align-items: flex-start;
+}
+
+.input-box .button {
+    width: 300px;
+}
+
+.input-box a {
+    text-decoration: none;
+}
+
+.input-box .text {
+    font-size: 14px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}
+
+/* Input field styling */
+.input-field {
+    margin-top: 5px;
+    border-color: rgb(128, 128, 128, 0.15);
+    border-radius: 3px;
+    padding: 10px;
+    width: 300px;
+}
+
+.input-field:focus {
+    outline: 1px solid #29c5f6;
+}
+
+.month-field {
+    margin-top: 5px;
+    border-color: rgb(128, 128, 128, 0.5);
+    border-radius: 3px;
+    padding: 10px;
+    width: 135px;
+}
+
+.month-field:focus {
+    outline: 1px solid #29c5f6;
+}
+
+.day-field {
+    margin-top: 5px;
+    border-color: rgb(128, 128, 128, 0.5);
+    border-radius: 3px;
+    padding: 10px;
+    width: 65px;
+}
+
+.day-field:focus {
+    outline: 1px solid #29c5f6;
+}
+
+.year-field {
+    margin-top: 5px;
+    border-color: rgb(128, 128, 128, 0.5);
+    border-radius: 3px;
+    padding: 10px;
+    width: 85px;
+}
+
+.year-field:focus {
+    outline: 1px solid #29c5f6;
 }
 
 /* Footer styling */
@@ -75,6 +156,7 @@ td .right-cell {
     text-decoration: none;
     color: white;
     display: inline-block;
+    white-space: nowrap;
 }
 
 .button:hover {
@@ -92,6 +174,28 @@ td .right-cell {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+/* Table button styling */
+.table-button {
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: #808080;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    text-decoration: none;
+    color: #000000;
+    display: inline-block;
+}
+
+.table-button:hover {
+    color: #000000;
 }
 
 /* Centering buttons within a container */
@@ -164,17 +268,6 @@ td .right-cell {
     text-align: left;
 }
 
-#middle-section ul,
-#middle-section2 ul {
-    list-style-type: none;
-}
-
-#middle-section ul li,
-#middle-section2 ul li {
-    color: red;
-    font-size: 12px;
-}
-
 @media (max-width: 768px) {
     #middle-section, #middle-section2 {
         width: 90%;
@@ -192,6 +285,11 @@ td .right-cell {
     #middle-section h3, #middle-section2 h3 {
         font-size: 18px;
     }
+
+    .button-container .button {
+        width: auto;
+        margin-bottom: 10px;
+    }
 }
 
 /* Form container styling */
@@ -201,7 +299,13 @@ td .right-cell {
     align-items: center;
 }
 
-.form-container p {
+.form-container2 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-container2 p {
     text-align: left;
 }
 

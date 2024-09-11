@@ -7,7 +7,7 @@
         <nav>
           <ul>
             <li>
-              <a class="username" href="#">{{ session['username'] }}</a>
+              <a class="username" href="javascript:void(0)">{{ session['username'] }}</a>
               <ul>
                 <li><a href="{{ url_for('user') }}">Saved books</a></li>
                 <li><a href="{{ url_for('user2') }}">User settings</a></li>
@@ -15,7 +15,7 @@
             </li>
             <li><a href="{{ url_for('index') }}">Home</a></li>
             <li><a href="{{ url_for('books') }}">Books</a></li>
-            <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+            <li><a id="logoutButton" href="javascript:void(0)">Log Out</a></li>
           </ul>
         </nav>
       </div>
@@ -75,5 +75,8 @@
     <!-- JavaScript file to fix nav menu position -->
     <script src="../static/js/navMenuFixed2.js"></script>
 {% endif %}
+
+<!-- JavaScript file for logoutButton -->
+<script src="../static/js/logOut.js"></script>
 
 {% endblock %}

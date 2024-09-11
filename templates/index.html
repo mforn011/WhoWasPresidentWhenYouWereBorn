@@ -7,7 +7,7 @@
       <nav>
         <ul>
           <li>
-            <a class="username" href="#">{{ session['username'] }}</a>
+            <a class="username" href="javascript:void(0)">{{ session['username'] }}</a>
             <ul>
               <li><a href="{{ url_for('user') }}">Saved books</a></li>
               <li><a href="{{ url_for('user2') }}">User settings</a></li>
@@ -15,7 +15,7 @@
           </li>
           <li><a href="{{ url_for('index') }}">Home</a></li>
           <li><a href="{{ url_for('books') }}">Books</a></li>
-          <li><a href="{{ url_for('logOut') }}">Log Out</a></li>
+          <li><a id="logoutButton" href="javascript:void(0)">Log Out</a></li>
         </ul>
       </nav>
     </div>
@@ -23,33 +23,35 @@
 
   <section id="middle-section">
     <br><br><br>
-    <h1>Enter Your Date of Birth!</h1>
-      <br>
-      <div class="container">
-        <div>
-          <form method="post">
-            {{ form.csrf_token() }}
-            <div class="form-container">
-              <p>
-                Month:
-                {{ form.month() }}
-              </p>
-              <p>
-                Day:
-                {{ form.day() }}
-              </p>
-              <p>
-                Year:
-                {{ form.year() }}
-              </p>
-            </div>
-            <div class="button-container">
-              <input value="Submit" class="button" type="submit">
-            </div>
-          </form>
+    <div class="input-box-size">
+      <div class="input-box">
+        <h1>Enter Your Date of Birth!</h1>
+        <div class="container">
+          <div>
+            <form method="post">
+              {{ form.csrf_token() }}
+              <div class="form-container">
+                <p>
+                  <label>Month:</label><br>
+                  {{ form.month(class="month-field") }}
+                </p>
+                <p>
+                  <label>Day:</label><br>
+                  {{ form.day(class="day-field") }}
+                </p>
+                <p>
+                  <label>Year:</label><br>
+                  {{ form.year(class="year-field") }}
+                </p>
+              </div>
+              <div class="button-container">
+                <input value="Submit" class="button" type="submit">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    <br><br><br>
+    </div>
   </section>
 {% else %}
   <section id="top-right2">
@@ -66,37 +68,42 @@
 
   <section id="middle-section2">
     <br><br><br>
-    <h1>Enter Your Date of Birth!</h1>
-      <br>
-      <div class="container">
-        <div>
-          <form method="post">
-            {{ form.csrf_token() }}
-            <div class="form-container">
-              <p>
-                Month:
-                {{ form.month() }}
-              </p>
-              <p>
-                Day:
-                {{ form.day() }}
-              </p>
-              <p>
-                Year:
-                {{ form.year() }}
-              </p>
-            </div>
-            <div class="button-container">
-              <input value="Submit" class="button" type="submit">
-            </div>
-          </form>
+    <div class="input-box-size">
+      <div class="input-box">
+        <h1>Enter Your Date of Birth!</h1>
+        <div class="container">
+          <div>
+            <form method="post">
+              {{ form.csrf_token() }}
+              <div class="form-container">
+                <p>
+                  <label>Month:</label><br>
+                  {{ form.month(class="month-field") }}
+                </p>
+                <p>
+                  <label>Day:</label><br>
+                  {{ form.day(class="day-field") }}
+                </p>
+                <p>
+                  <label>Year:</label><br>
+                  {{ form.year(class="year-field") }}
+                </p>
+              </div>
+              <div class="button-container">
+                <input value="Submit" class="button" type="submit">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    <br><br><br>
+    </div>
   </section>
 {% endif %}
 
 <!-- JavaScript file for index.html -->
 <script src="../static/js/index.js"></script>
+
+<!-- JavaScript file for logoutButton -->
+<script src="../static/js/logOut.js"></script>
 
 {% endblock %}

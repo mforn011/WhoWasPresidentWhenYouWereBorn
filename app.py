@@ -7,49 +7,42 @@ import os
 from pymongo import MongoClient
 import certifi
 from wtforms.validators import DataRequired
-import main_functions
 
 # Initialize Flask app
 app = Flask(__name__)
 
-# Load credentials from credentials.json
-credentials = main_functions.read_from_file("credentials.json")
-
-username = credentials['username']
-password = credentials['password']
+# Retrieve environment variables from Heroku Config Vars
+mongo_username = os.getenv('MONGO_USERNAME')
+mongo_password = os.getenv('MONGO_PASSWORD')
 
 # Configure secret key and MongoDB URI
 app.secret_key="new_secret_key"
-app.config["MONGO_URI"]="mongodb+srv://{0}:{1}@learningmongodb.ifhle6b.mongodb.net/" \
-                        "?retryWrites=true&w=majority&appName=learningMongoDB".format(username, password)
+mongo_uri=f"mongodb+srv://{mongo_username}:{mongo_password}@learningmongodb.ifhle6b.mongodb.net/" \
+                        "?retryWrites=true&w=majority&appName=learningMongoDB"
+app.config["MONGO_URI"]=mongo_uri
 
 # Initialize PyMongo
 mongo = PyMongo(app)
 
 # Connect to MongoDB client
-client = MongoClient("mongodb+srv://{0}:{1}@learningmongodb.ifhle6b.mongodb.net/" \
-                        "?retryWrites=true&w=majority&appName=learningMongoDB".format(username, password),
-                     tlsCAFile=certifi.where())
+client = MongoClient(mongo_uri, tlsCAFile=certifi.where())
 
 # Access the database
 db = client['db']
 
 # Define lists for form choices
-years = [1982, 1983, 1984, 1985, 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993,
-         1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005,
-         2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017,
-         2018, 2019, 2020, 2021, 2022, 2023, 2024]
+years = list(range(1982, 2025))
 
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
           'November', 'December']
 
-days = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-        31]
+days = list(range(1, 32))
 
 # Define form for user credentials
 class UserCredentials(FlaskForm):
     app_username = StringField("app_username", [validators.DataRequired()])
     app_password = PasswordField("app_password", [validators.DataRequired()])
+    app_email = StringField("app_email", [validators.DataRequired()])
 
 # Define form for search
 class Search(FlaskForm):
@@ -69,6 +62,17 @@ def real_username_and_password(appUsername, appPassword):
     if user_credentials is not None:
         for i in user_credentials:
             if i['username'] == appUsername and check_password_hash(i['password'], appPassword):
+                return True
+        # If no matching user found
+        return False
+    else:
+        return False
+
+def real_email(appEmail):
+    user_info = db.usernameAndPassword.find()
+    if user_info is not None:
+        for i in user_info:
+            if i['email'] == appEmail:
                 return True
         # If no matching user found
         return False
@@ -152,6 +156,9 @@ def logIn():
             next_url = session['url']
         if real_username_and_password(appUsername, appPassword):
             session['username'] = appUsername
+            user_info = db.usernameAndPassword.find_one({'username': appUsername})
+            if user_info and 'email' in user_info:
+                session['email'] = user_info['email']
             if next_url:
                 return redirect(next_url)
             else:
@@ -167,8 +174,12 @@ def createAccount():
     if request.method == 'POST' and form.validate():
         newUsername = request.form['app_username']
         newPassword = request.form['app_password']
+        newEmail = request.form['app_email']
         if not real_username_and_password(newUsername, newPassword):
-            db.usernameAndPassword.insert_one({'username': newUsername, 'password': generate_password_hash(newPassword, method='scrypt')})
+            db.usernameAndPassword.insert_one({'username': newUsername, 'password': generate_password_hash(newPassword, method='scrypt'),
+                                               'email': newEmail})
+            session['username'] = newUsername
+            session['email'] = newEmail
             flash('Account successfully created!', 'success')
         else:
             flash('Account already exists.', 'error')
@@ -264,27 +275,13 @@ def newPassword():
             return render_template("newPassword.html", form=form)
     return render_template("newPassword.html", form=form)
 
-@app.route('/logOut', methods=['GET', 'POST'])
+@app.route('/logOut')
 def logOut():
-    if request.method == 'POST':
-        if 'url' in session:
-            next_url = session['url']
-            if request.form.get('logout'):
-                return redirect(url_for('loggedOut'))
-            elif request.form.get('cancel'):
-                if next_url is not None:
-                    return redirect(next_url)
-                else:
-                    return redirect(url_for('index'))
-    return render_template("logOut.html")
-
-@app.route('/loggedOut')
-def loggedOut():
     session.clear()
-    return render_template("loggedOut.html")
+    return redirect(url_for('index'))
 
-if __name__ == '__main__':
-    app.run()
+# if __name__ == '__main__':
+    # app.run()
 
 
 
