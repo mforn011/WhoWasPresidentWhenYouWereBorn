@@ -16,9 +16,11 @@ mongo_username = os.getenv('MONGO_USERNAME')
 mongo_password = os.getenv('MONGO_PASSWORD')
 
 # Configure secret key and MongoDB URI
-app.secret_key=//insertsecretkeyhere//
+app.config['SECRET_KEY']=os.getenv('SECRET_KEY')
+
 mongo_uri=f"mongodb+srv://{mongo_username}:{mongo_password}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB"
+
 app.config["MONGO_URI"]=mongo_uri
 
 # Initialize PyMongo
@@ -280,8 +282,8 @@ def logOut():
     session.clear()
     return redirect(url_for('index'))
 
-# if __name__ == '__main__':
-    # app.run()
+if __name__ == '__main__':
+    app.run()
 
 
 
