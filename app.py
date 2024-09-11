@@ -16,7 +16,7 @@ mongo_username = os.getenv('MONGO_USERNAME')
 mongo_password = os.getenv('MONGO_PASSWORD')
 
 # Configure secret key and MongoDB URI
-app.secret_key="new_secret_key"
+app.secret_key=//insertsecretkeyhere//
 mongo_uri=f"mongodb+srv://{mongo_username}:{mongo_password}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB"
 app.config["MONGO_URI"]=mongo_uri
