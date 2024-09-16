@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, url_for, flash, redirect, ses
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_pymongo import PyMongo
 from flask_wtf import FlaskForm
+from flask_mail import Mail, Message
 from wtforms import StringField, PasswordField, SelectField, validators
 import os
 from pymongo import MongoClient
@@ -16,7 +17,9 @@ mongo_username = os.getenv('MONGO_USERNAME')
 mongo_password = os.getenv('MONGO_PASSWORD')
 
 # Configure secret key and MongoDB URI
-app.config['SECRET_KEY']=os.getenv('SECRET_KEY')
+secret_key = os.getenv('SECRET_KEY')
+
+app.secret_key = secret_key
 
 mongo_uri=f"mongodb+srv://{mongo_username}:{mongo_password}@learningmongodb.ifhle6b.mongodb.net/" \
                         "?retryWrites=true&w=majority&appName=learningMongoDB"
@@ -40,6 +43,17 @@ months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'Augus
 
 days = list(range(1, 32))
 
+# Initialize Flask-Mail
+my_email = os.getenv('MAIL_USERNAME')
+
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_USERNAME'] = my_email
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+mail = Mail(app)
+
 # Define form for user credentials
 class UserCredentials(FlaskForm):
     app_username = StringField("app_username", [validators.DataRequired()])
@@ -54,10 +68,18 @@ class Search(FlaskForm):
                         choices=months)
     day = SelectField("day", choices=days)
 
+# Define form for log-in credentials
+class UserInfo(FlaskForm):
+    app_username = StringField("app_username", [validators.DataRequired()])
+    app_password = PasswordField("app_password", [validators.DataRequired()])
+
 # Define form for new password
 class NewPassword(FlaskForm):
     new_user_password = PasswordField("new_user_password", [validators.DataRequired()])
     new_user_password2 = PasswordField("new_user_password2", [validators.DataRequired()])
+
+class NewEmail(FlaskForm):
+    new_user_email = StringField("new_user_email", [validators.DataRequired()])
 
 def real_username_and_password(appUsername, appPassword):
     user_credentials = db.usernameAndPassword.find()
@@ -70,11 +92,11 @@ def real_username_and_password(appUsername, appPassword):
     else:
         return False
 
-def real_email(appEmail):
+def real_username_and_email(appUsername, appEmail):
     user_info = db.usernameAndPassword.find()
     if user_info is not None:
         for i in user_info:
-            if i['email'] == appEmail:
+            if i['username'] == appUsername and i['email'] == appEmail:
                 return True
         # If no matching user found
         return False
@@ -148,7 +170,7 @@ def president_page(president):
 
 @app.route('/logIn', methods=['GET', 'POST'])
 def logIn():
-    form = UserCredentials(request.form)
+    form = UserInfo(request.form)
     if request.method == 'POST' and form.validate():
         appUsername = request.form['app_username']
         appPassword = request.form['app_password']
@@ -247,12 +269,10 @@ def user():
 
 @app.route('/user2')
 def user2():
-    session['url'] = request.url
     return render_template("user2.html")
 
 @app.route('/newPassword', methods=['GET', 'POST'])
 def newPassword():
-    session['url'] = request.url
     form = NewPassword(request.form)
     user_name = ''
     user_password = ''
@@ -276,6 +296,51 @@ def newPassword():
             flash('Passwords must be typed exactly the same twice.', 'error')
             return render_template("newPassword.html", form=form)
     return render_template("newPassword.html", form=form)
+
+@app.route('/newEmail', methods=['GET', 'POST'])
+def newEmail():
+    form = NewEmail(request.form)
+    session_username = ''
+    if 'username' in session:
+        session_username = session['username']
+    if request.method == 'POST' and form.validate:
+        new_user_email = request.form['new_user_email']
+        if not real_username_and_email(session_username, new_user_email):
+            session['email'] = new_user_email
+            flash('New email saved!', 'success')
+            db.usernameAndPassword.update_one({'username': session_username}, {'$set': {'email': new_user_email}})
+            return render_template("newEmail.html", form=form)
+        elif real_username_and_email(session_username, new_user_email):
+            flash('That is already your email.', 'error')
+            return render_template("newEmail.html", form=form)
+    return render_template("newEmail.html", form=form)
+
+@app.route('/resetPassword', methods=['GET', 'POST'])
+def resetPassword():
+    form = UserCredentials(request.form)
+    if request.method == 'POST' and form.validate:
+        user_name = request.form['app_username']
+        user_email = request.form['app_email']
+        if real_username_and_email(user_name, user_email):
+            new_temporary_password = os.urandom(10).hex()
+            db.usernameAndPassword.update_one({'username': user_name}, {
+                '$set': {'password': generate_password_hash(new_temporary_password, method='scrypt')}})
+            msg = Message(
+                subject="New temporary password",
+                sender=f"Who Was President When You Were Born?<{my_email}>",
+                recipients=[user_email],
+            )
+            msg.body = f"Here's your new temporary password:\n{new_temporary_password}"
+            mail.send(msg)
+            return redirect(url_for('temporaryPasswordSent'))
+        else:
+            flash('Could not find any account with this username or email.', 'error')
+            return render_template("resetPassword.html", form=form)
+    return render_template("resetPassword.html", form=form)
+
+@app.route('/temporaryPasswordSent')
+def temporaryPasswordSent():
+    return render_template("temporaryPasswordSent.html")
 
 @app.route('/logOut')
 def logOut():
