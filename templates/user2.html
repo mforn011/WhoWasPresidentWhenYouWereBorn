@@ -52,7 +52,15 @@
                     Email:
                 </td>
                 <td class="right-cell" align="left">
-                    {{ session['email'] }}
+                    <p>{{ session['email'] }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="left-cell">
+                    Change email:
+                </td>
+                <td class="right-cell" align="left">
+                    <a href="{{ url_for('newEmail') }}" class="table-button">Change email</a>
                 </td>
             </tr>
         </tbody>
